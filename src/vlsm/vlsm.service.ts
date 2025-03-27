@@ -36,7 +36,7 @@ export class VlsmService {
         firstHost,
         lastHost,
         broadcast,
-        range: `${firstHost} - ${lastHost}`,
+        range: `${firstHost} ${lastHost}`,
         router: ip.fromLong(currentNetwork + 1),
         dns: ['8.8.8.8', '8.8.4.4'],
       });
