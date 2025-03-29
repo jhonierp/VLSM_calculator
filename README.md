@@ -1,6 +1,6 @@
 # 📌 API de Subneteo VLSM - Documentación
 
-<a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a> 
+<a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 
 ## 🚀 Descripción
 
@@ -14,11 +14,19 @@ https://vlsm-calculator.onrender.com/api
 
 ## 📄 Uso de la API
 
-### 🔹 Endpoint principal
+### 🔹 Endpoints Disponibles
 
-- `GET /vlsm/calculate?network=<red>&subnets=<cantidad>&hosts=<h1>&hosts=<h2>&hosts=<h3>`
+#### **1️⃣ `GET /vlsm/calculate`**
 
-#### 📌 Ejemplo de petición
+📄 **Devuelve la configuración en formato DHCP**
+
+**📌 Parámetros:**
+
+- `network`: Dirección de red base _(Ejemplo: `172.18.0.0`)_
+- `subnets`: Número de subredes _(Ejemplo: `3`)_
+- `hosts`: Lista con la cantidad de hosts por subred _(Ejemplo: `[500,200,100]`)_
+
+**📤 Ejemplo de petición**
 
 ```bash
 curl -X 'GET' \
@@ -26,7 +34,7 @@ curl -X 'GET' \
   -H 'accept: */*'
 ```
 
-#### 📌 Respuesta esperada
+**📤 Respuesta esperada:**
 
 ```
 subnet 172.18.0.0 netmask 255.255.254.0 {
@@ -40,15 +48,42 @@ subnet 172.18.2.0 netmask 255.255.255.0 {
   option routers 172.18.2.1;
   option domain-name-servers 8.8.8.8, 8.8.4.4;
 }
-
-subnet 172.18.3.0 netmask 255.255.255.128 {
-  range 172.18.3.1 172.18.3.126;
-  option routers 172.18.3.1;
-  option domain-name-servers 8.8.8.8, 8.8.4.4;
-}
 ```
 
-Este formato está listo para ser usado en la configuración de un servidor DHCP en Ubuntu.
+---
+
+#### **2️⃣ `GET /vlsm/calculate-json`**
+
+📄 **Devuelve la configuración en formato JSON**
+
+**📌 Parámetros:**
+
+- `network`: Dirección de red base _(Ejemplo: `172.18.0.0`)_
+- `subnets`: Número de subredes _(Ejemplo: `3`)_
+- `hosts`: Lista con la cantidad de hosts por subred _(Ejemplo: `[500,200,100]`)_
+
+**📤 Ejemplo de petición**
+
+```bash
+curl "https://vlsm-calculator.onrender.com/vlsm/calculate-json?network=172.18.0.0&subnets=3&hosts=500,200,100"
+```
+
+**📤 Ejemplo de respuesta:**
+
+```json
+{
+  "subnets": [
+    {
+      "subnet": "172.18.0.0",
+      "netmask": "255.255.254.0",
+      "hosts": 500,
+      "firstHost": "172.18.0.1",
+      "lastHost": "172.18.1.254",
+      "broadcast": "172.18.1.255"
+    }
+  ]
+}
+```
 
 ## ⚙️ Instalación y Uso Local
 
@@ -79,7 +114,7 @@ http://localhost:3001
 
 ## 📖 Documentación Swagger
 
-puedes acceder a:
+Puedes acceder a:
 
 ```
 https://vlsm-calculator.onrender.com/api
@@ -96,6 +131,7 @@ https://vlsm-calculator.onrender.com/api
 Si deseas contribuir a este proyecto, eres bienvenido. Puedes reportar problemas, sugerir mejoras o enviar pull requests en el repositorio de GitHub.
 
 🔗 Repositorio: VLSM_calculator
+
 ```
 https://github.com/jhonierp/VLSM_calculator.git
 ```
@@ -104,4 +140,3 @@ https://github.com/jhonierp/VLSM_calculator.git
 
 📧 **Email:** jhonierpasos9@gmail.com  
 🐙 **GitHub:** [jhonierp](https://github.com/jhonierp)
-
