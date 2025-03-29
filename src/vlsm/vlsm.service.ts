@@ -57,6 +57,7 @@ export class VlsmService {
     const results: Array<{
       subnet: string;
       netmask: string;
+      hosts: number;
       firstHost: string;
       lastHost: string;
       broadcast: string;
@@ -81,6 +82,7 @@ export class VlsmService {
       results.push({
         subnet: ip.fromLong(currentNetwork),
         netmask,
+        hosts: host, // Agregamos la cantidad de hosts solicitados
         firstHost,
         lastHost,
         broadcast,
