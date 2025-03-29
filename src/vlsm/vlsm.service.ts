@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { VlsmDto } from './vlsm.dto';
 import * as ip from 'ip';
+import { NodeSSH } from 'node-ssh';
 
 @Injectable()
 export class VlsmService {
@@ -90,4 +91,47 @@ export class VlsmService {
 
     return { subnets: results };
   }
+
+  // Obtener máscara de subred desde un prefijo CIDR
+  getSubnetMask(prefix: number) {
+    if (prefix < 0 || prefix > 32) {
+      throw new Error('El prefijo debe estar entre 0 y 32.');
+    }
+    return {
+      prefix,
+      subnetMask: ip.fromPrefixLen(prefix),
+    };
+  }
+
+  // Obtener información de una IP
+  getIpInfo(ipAddress: string) {
+    if (!ip.isV4Format(ipAddress)) {
+      throw new Error('La dirección IP no es válida.');
+    }
+
+    const subnet = ip.subnet(ipAddress, '255.255.255.0');
+    const ipClass = this.getIpClass(ipAddress);
+
+    return {
+      ip: ipAddress,
+      network: subnet.networkAddress,
+      subnetMask: subnet.subnetMask,
+      class: ipClass,
+      broadcast: subnet.broadcastAddress,
+    };
+  }
+
+  // Determinar la clase de una IP (A, B, C, D, E)
+  private getIpClass(ipAddress: string): string {
+    const firstOctet = parseInt(ipAddress.split('.')[0], 10);
+
+    if (firstOctet >= 1 && firstOctet <= 126) return 'A';
+    if (firstOctet >= 128 && firstOctet <= 191) return 'B';
+    if (firstOctet >= 192 && firstOctet <= 223) return 'C';
+    if (firstOctet >= 224 && firstOctet <= 239) return 'D';
+    if (firstOctet >= 240 && firstOctet <= 255) return 'E';
+    return 'Desconocida';
+  }
+
+  // Conexión SSH a un servidor remoto
 }
