@@ -27,4 +27,18 @@ export class VlsmController {
   calculateSubnets(@Query() params: VlsmDto) {
     return this.vlsmService.calculateSubnets(params);
   }
+
+  @Get('calculate-json')
+  @UsePipes(new ValidationPipe({ transform: true }))
+  @ApiQuery({ name: 'network', type: String, example: '172.18.0.0' })
+  @ApiQuery({ name: 'subnets', type: Number, example: 3 })
+  @ApiQuery({
+    name: 'hosts',
+    type: [Number],
+    example: [500, 200, 100],
+    isArray: true,
+  })
+  calculateSubnetsJson(@Query() params: VlsmDto) {
+    return this.vlsmService.calculateSubnetsJson(params);
+  }
 }
