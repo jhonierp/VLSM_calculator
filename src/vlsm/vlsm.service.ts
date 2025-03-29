@@ -61,9 +61,6 @@ export class VlsmService {
       firstHost: string;
       lastHost: string;
       broadcast: string;
-      range: { start: string; end: string };
-      router: string;
-      dns: string[];
     }> = [];
     let currentNetwork = ip.toLong(network);
 
@@ -86,9 +83,6 @@ export class VlsmService {
         firstHost,
         lastHost,
         broadcast,
-        range: { start: firstHost, end: lastHost },
-        router: ip.fromLong(currentNetwork + 1),
-        dns: ['8.8.8.8', '8.8.4.4'],
       });
 
       currentNetwork += Math.pow(2, requiredBits);
