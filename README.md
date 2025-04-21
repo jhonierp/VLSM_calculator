@@ -27,7 +27,7 @@ https://vlsmcalculator-production.up.railway.app/api
 
 - `network`: Dirección de red base _(Ejemplo: `172.18.0.0`)_
 - `subnets`: Número de subredes _(Ejemplo: `3`)_
-- `hosts`: Lista con la cantidad de hosts por subred _(Ejemplo: `[500,200,100]`)_
+- `hosts`: Parámetro repetible para definir la cantidad de hosts por subred. Se puede usar múltiples veces _(Ejemplo: `...?hosts=500&hosts=200&hosts=100`)_
 
 **📤 Ejemplo de petición**
 
